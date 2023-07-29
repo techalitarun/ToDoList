@@ -1,6 +1,9 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+dotenv.config();
+
 const ld = require("lodash");
 
 const app = express();
@@ -11,7 +14,7 @@ app.set("view engine","ejs");
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
-mongoose.connect("mongodb+srv://admin-tarun:CRNqLZDgkbJE8Yc7@cluster0.ioo3uvp.mongodb.net/todolistDB", {useNewUrlParser: true});
+mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {useNewUrlParser: true});
 
 const itemSchema = new mongoose.Schema({
     name : String
@@ -160,6 +163,6 @@ app.get("/:topic",function(req,res){
 
 })
 
-app.listen(3000,function(){
-    console.log("server running on port 3000");
+app.listen(process.env.PORT || 3000,function(){
+    console.log("server running on port");
 });
